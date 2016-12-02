@@ -1,6 +1,8 @@
 .jumbotron{
     padding:10px 0 !important;
     text-align: center;
+    background-color: #337ab7 !important;
+    color:white !important;
 }
 img{
     border-radius: 6px;

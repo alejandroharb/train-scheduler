@@ -11,11 +11,12 @@
   var database = firebase.database();
 
    //click listener for Submitting a Train Schedule
-   $('#add-train-btn').on('click',function(){
+   $('#add-train-btn').on("click", function() {
    		//variables for user input
+
    		var trainName = $('#train-submit').val().trim();
    		var destination = $('#destination-submit').val().trim();
-   		var time = $('#time-submit').val().trim();
+   		var time = moment($('#time-submit').val().trim(), "HH:mm").format("X");
    		var frequency = $('#frequency-submit').val().trim();
    		//variable temporarily stores user data submitted
    		var newTrain = {
@@ -40,6 +41,7 @@
    		$('#time-submit').val("");
    		$('#frequency-submit').val("");
 
+   		alert("submitted")
    		//prevents new page load
    		return false;
    });
@@ -48,17 +50,19 @@
    		console.log(response.val());
 
    		//store into variables
-   		var train = response.val().trainName;
+   		var train = response.val().train;
    		var destination = response.val().destination;
-   		var time = response.val().time;
+   		var time = response.val().firstTrainTime;
    		var frequency = response.val().frequency;
 
    		//nice format to train Start Time
-   		var trainStartNice = moment().unix(train).format("MMM DD YY");
+   		var trainStartNice = moment.unix(time).format("hh:mmA");
    		console.log("nicely formatted train start time: " + trainStartNice);
 
-   		//calculate Next Arrival time
-   		var nextArrival = moment().diff(train, "Hour");
-   		console.log("Next arrival time: " + nextArrival);
+   		//calculate Minutes Away
+   		var minutesAway = -moment().diff(moment.unix(time, "X"), "minutes");
+   		console.log("Next arrival time: " + minutesAway);
 
+   		//add to table
+   		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' + trainStartNice + '</td><td>' + minutesAway + '</td></tr>');
    })
