@@ -1,10 +1,10 @@
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyBE-Kf69assUIOy3g79pUV91aNRNLSIkCY",
-    authDomain: "test-project-1-dd166.firebaseapp.com",
-    databaseURL: "https://test-project-1-dd166.firebaseio.com",
-    storageBucket: "test-project-1-dd166.appspot.com",
-    messagingSenderId: "213958702766"
+    apiKey: "AIzaSyC_6zI9lDw0zIfjCdJbqVEeH_FwjrJvGDc",
+    authDomain: "train-schedule-app-b4846.firebaseapp.com",
+    databaseURL: "https://train-schedule-app-b4846.firebaseio.com",
+    storageBucket: "train-schedule-app-b4846.appspot.com",
+    messagingSenderId: "1035310142031"
   };
   firebase.initializeApp(config);
 
@@ -52,4 +52,13 @@
    		var destination = response.val().destination;
    		var time = response.val().time;
    		var frequency = response.val().frequency;
+
+   		//nice format to train Start Time
+   		var trainStartNice = moment().unix(train).format("MMM DD YY");
+   		console.log("nicely formatted train start time: " + trainStartNice);
+
+   		//calculate Next Arrival time
+   		var nextArrival = moment().diff(train, "Hour");
+   		console.log("Next arrival time: " + nextArrival);
+
    })
