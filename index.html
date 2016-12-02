@@ -28,7 +28,8 @@
                 <img src="assets/img/clock.jpg" alt="train station clock" class="img-responsive">
             </div>
             <div class="col-md-6">
-                <div class="panel panel-primary">
+            	<!-- User Submitting Train Schedule -->
+                <div class="panel panel-default">
                     <div class="panel-heading"> Submit Train Schedule!</div>
                     <div class="panel-body">
                         <form>
@@ -48,11 +49,31 @@
                                 <label for="frequency-submit">Frequency (min)</label>
                                 <input class="form-control" id="frequency-submit" type="text" placeholder="120">
                             </div>
-                            <button class="btn btn-primary" id="add-train" type="submit">Submit</button>
+                            <!-- Submit Button -->
+                            <button class="btn btn-primary" id="add-train-btn" type="submit">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+        	<div class="col-md-12">
+        		<!-- Updating Train Schedule -->
+        		<div class="panel panel-default">
+        			<div class="panel-heading text-center">Train Schedule</div>
+        			<div class="panel-body">
+    					<table class="table table-striped">
+    						<tr>
+    							<th>Train Name</th>
+    							<th>Destination</th>
+    							<th>Arrival Frequency</th>
+    							<th>Next Arrival</th>
+    							<th>Minutes Away</th>
+    						</tr>
+    					</table>
+        			</div>
+        		</div>
+        	</div>
         </div>
     </div>
 </body>
