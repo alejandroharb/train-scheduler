@@ -16,13 +16,13 @@
 
    		var trainName = $('#train-submit').val().trim();
    		var destination = $('#destination-submit').val().trim();
-   		var time = moment($('#time-submit').val().trim(), "HH:mm").format("X");
+   		var first = moment($('#time-submit').val().trim(), "HH:mm").format("X");
    		var frequency = $('#frequency-submit').val().trim();
    		//variable temporarily stores user data submitted
    		var newTrain = {
    			train: trainName,
    			destination: destination,
-   			firstTrainTime:time,
+   			firstTrainTime:first,
    			frequency:frequency
    		};
 
@@ -52,7 +52,7 @@
    		//store into variables
    		var train = response.val().train;
    		var destination = response.val().destination;
-   		var time = response.val().firstTrainTime;
+   		var first = response.val().firstTrainTime;
    		var frequency = response.val().frequency;
 
    		//nice format to train Start Time
@@ -60,9 +60,18 @@
    		console.log("nicely formatted train start time: " + trainStartNice);
 
    		//calculate Minutes Away
-   		var minutesAway = -moment().diff(moment.unix(time, "X"), "minutes");
+   		var minutesAway = moment().diff(moment.unix(time, "X"), "minutes");
+
+   		if(minutesAway < 0){
+   			minutesAway = minutesAway*-1;
+   		}
    		console.log("Next arrival time: " + minutesAway);
 
    		//add to table
-   		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' + trainStartNice + '</td><td>' + minutesAway + '</td></tr>');
+   		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' +  + '</td><td>' + minutesAway + '</td></tr>');
    })
+
+   //todo: program math function for finding the next arrival time depending on frequency
+
+   //math for next arrival
+   var nextArrival = time
