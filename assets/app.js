@@ -16,13 +16,13 @@
 
    		var trainName = $('#train-submit').val().trim();
    		var destination = $('#destination-submit').val().trim();
-   		var first = moment($('#time-submit').val().trim(), "HH:mm").format("X");
+   		var firstTrain = moment($('#time-submit').val().trim(),"HH:mm").format();
    		var frequency = $('#frequency-submit').val().trim();
    		//variable temporarily stores user data submitted
    		var newTrain = {
    			train: trainName,
    			destination: destination,
-   			firstTrainTime:first,
+   			firstTrainTime:firstTrain,
    			frequency:frequency
    		};
 
@@ -41,7 +41,6 @@
    		$('#time-submit').val("");
    		$('#frequency-submit').val("");
 
-   		alert("submitted")
    		//prevents new page load
    		return false;
    });
@@ -53,25 +52,29 @@
    		var train = response.val().train;
    		var destination = response.val().destination;
    		var first = response.val().firstTrainTime;
+      console.log("variable 'first': "+ first);
    		var frequency = response.val().frequency;
 
-   		//nice format to train Start Time
-   		var trainStartNice = moment.unix(time).format("hh:mmA");
-   		console.log("nicely formatted train start time: " + trainStartNice);
+   		//current time and time of first train arrival
+      var currentTime = moment();
 
-   		//calculate Minutes Away
-   		var minutesAway = moment().diff(moment.unix(time, "X"), "minutes");
+      console.log("first formatted: "+first)
+      //hours since first train (first). true tells to give exact answer, not rounded
+      var timeDiff = moment(currentTime).diff(first, "minutes", true);
+      console.log("firstTrainMinutes: "+timeDiff);
+      //calculation of minutes away, rounding up
+      var minutesAway = Math.ceil(Math.abs((timeDiff%frequency) - frequency));
 
-   		if(minutesAway < 0){
-   			minutesAway = minutesAway*-1;
-   		}
-   		console.log("Next arrival time: " + minutesAway);
+   		console.log("minutes Away: " + minutesAway);
+
+      var nextArrival = moment().add(minutesAway,'m').format("HH:mm")
+      console.log("Next arrival time: "+nextArrival);
 
    		//add to table
-   		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' +  + '</td><td>' + minutesAway + '</td></tr>');
-   })
-
-   //todo: program math function for finding the next arrival time depending on frequency
-
-   //math for next arrival
-   var nextArrival = time
+   		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' + nextArrival + '</td><td>' + minutesAway + '</td></tr>');
+   },function(errorObject) {
+      console.log("Errors handled: " + errorObject.code);
+    });
+  //to do:
+  var timeExample = moment("86400000").format("YYYY M DD");
+  console.log(timeExample);
