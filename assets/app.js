@@ -46,35 +46,29 @@
    });
 
    database.ref().on("child_added", function(response){
-   		console.log(response.val());
 
-   		//store into variables
+   		//store firebase data into variables
    		var train = response.val().train;
    		var destination = response.val().destination;
    		var first = response.val().firstTrainTime;
-      console.log("variable 'first': "+ first);
    		var frequency = response.val().frequency;
 
    		//current time and time of first train arrival
       var currentTime = moment();
 
-      console.log("first formatted: "+first)
+
       //hours since first train (first). true tells to give exact answer, not rounded
       var timeDiff = moment(currentTime).diff(first, "minutes", true);
-      console.log("firstTrainMinutes: "+timeDiff);
+
       //calculation of minutes away, rounding up
       var minutesAway = Math.ceil(Math.abs((timeDiff%frequency) - frequency));
 
-   		console.log("minutes Away: " + minutesAway);
-
+      //calculating upcoming arrival by adding minutes away to current time and formatting to display nicely
       var nextArrival = moment().add(minutesAway,'m').format("HH:mm")
-      console.log("Next arrival time: "+nextArrival);
+
 
    		//add to table
    		$('#train-table > tbody').prepend('<tr><td>' + train + '</td><td>' + destination + '</td><td>' + frequency + '</td><td>' + nextArrival + '</td><td>' + minutesAway + '</td></tr>');
    },function(errorObject) {
       console.log("Errors handled: " + errorObject.code);
     });
-  //to do:
-  var timeExample = moment("86400000").format("YYYY M DD");
-  console.log(timeExample);
